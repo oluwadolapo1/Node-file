@@ -287,11 +287,18 @@ mongoose.connect(URI)
         // res.render('index', {title: 'First EJS page',name: 'Oluwakemi', score: 30});
         });
 
-    app.get('/api', (req, res) => {
+    app.get('/api1', (req, res) => {
         res.send(cities);
-        res.send(nigerianFoods);
-        res.send(nigerianHeroes);
         });
+
+     app.get('/api2', (req, res)=>{
+        res.send(nigerianFoods);
+     })
+
+     app.get('/api3', (req, res)=>{
+        res.send(nigerianHeroes);
+     })
+
 
 app.listen(port, () => {
     console.log(`server started at port: ${port}`);
