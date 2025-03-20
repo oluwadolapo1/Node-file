@@ -1,0 +1,39 @@
+<%- include('../partials/navbar') %>
+<h1 class="text-center mt-5">Dashboard</h1>
+<table class="table table-dashboard table-striped">
+    <tr>
+        <th>S/N</th>
+        <th>Name</th>
+        <th>Population</th>
+        <th>Landmark</th>
+        <th>Landmass</th>
+        <th>Picture</th>
+    </tr>
+    <thead>
+    <% for (let index= 0; index < data.length; index++) { %>
+        <tbody>
+            <tr>
+                <td>
+                    <%= index+1 %>
+                </td>
+                <td>
+                    <%= data[index].name %>
+                </td>
+                <td>
+                    <%= data[index].population %>
+                </td>
+                <td>
+                    <%= data[index].landmark %>
+                </td>
+                <td>
+                    <%= data[index].landmass %>
+                </td>
+                <td>
+                    <img src="<%= data[index].picture %>" alt="spybot" width="20" height="20">
+                </td>
+            </tr>
+        </tbody>
+    <% } %>
+    </thead>
+</table>
+<%- include('../partials/footer') %>

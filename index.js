@@ -1,12 +1,13 @@
-// const express = require('express');
+const express = require('express');
 // const app = express();
 
 const app = require('express')();
 require('dotenv').config();
 const mongoose = require('mongoose');
+const users = require('./models/userModel')
 require ('ejs');
 app.set('view engine', 'ejs');
-
+app.use(express.json())
 
 const port = process.env.PORT || 5400;
 const URI = process.env.uri || undefined;
@@ -20,6 +21,18 @@ mongoose.connect(URI)
     console.log(err);
 })
 
+
+app.post('/store', async(req, res) =>{
+    try{
+        const {name, email, age, password} = req.body;
+        const newUser = new users({name, email, age, password})
+        await newUser.save()
+        res.status(201).json({message: 'Data added successfully', user:newUser})
+    }   catch(err) {
+        console.log(err);
+        res.status(501).json({error: err.message})
+    }
+})
 
     const cities = [
         {
@@ -280,12 +293,36 @@ mongoose.connect(URI)
         
         console.log(nigerianHeroes);
 
+
+    
+
     app.get('/', (req, res) => {
         // res.send(cities);
-        res.sendFile(__dirname+'/public/index.html')
+        // res.sendFile(__dirname+'/public/index.html')
         // res.send(__dirname)
-        // res.render('index', {title: 'First EJS page',name: 'Oluwakemi', score: 30});
+        res.render('index', {title: 'First EJS page',name: 'Oluwakemi', score: 30});
+        // res.render('pages/index')
         });
+
+
+        app.get('/signup', (req,res) => {
+            res.render('pages/signup')
+        })
+
+        app.get('/signin', (req,res) => {
+            res.render('pages/signin')
+        })
+
+        app.get('/dashboard', (req,res) => {
+            
+            fetch('https://second-class.vercel.app/api')
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                res.render('pages/dashboard', {data})
+            })
+            .catch(err =>  console.log(err))
+            })
 
     app.get('/api1', (req, res) => {
         res.send(cities);
@@ -296,6 +333,7 @@ mongoose.connect(URI)
      })
 
      app.get('/api3', (req, res)=>{
+
         res.send(nigerianHeroes);
      })
 
